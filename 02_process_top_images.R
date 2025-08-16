@@ -3,7 +3,8 @@
 # description: Filters and processes physical image files.
 # details:     Identifies relevant images, removes duplicates and irrelevant
 #              hashes. Resizes and compresses the final list of images,
-#              saving them to a new folder.
+#              saving them to a new folder. It then add to the metadata table
+#              the URL where the images are stored on GitHub.
 # ----------------------------------------------------------------------------- #
 
 library(tidyverse)
@@ -63,6 +64,18 @@ for (i in 1:length(top_image_paths)) {
   
   cat("Successfully resized and compressed:", basename(current_image_path), "\n")
 }
+
+# ---- 3. INCLUDE GITHUB IMAGE PATHS ----
+gith_path <- "https://raw.githubusercontent.com/nicolarighetti/polarvis-german-election-2021/main/data/top_images_normalized/"
+github_image_paths <- paste0(gith_path, basename(top_image_paths))
+
+path_table <- data.frame(
+  "image_url" = github_image_paths,
+  "hash" = tools::file_path_sans_ext(basename(github_image_paths)))
+
+top_shared_images <- merge(top_shared_images, path_table, all.x = T)
+
+write_csv(top_shared_images, "data/top_shared_images.csv")
 
 rm(list = ls())
 gc()
