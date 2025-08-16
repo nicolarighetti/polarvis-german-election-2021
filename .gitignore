@@ -1,0 +1,8 @@
+# R Studio files
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata/
+
+# Raw data
+raw_data/
