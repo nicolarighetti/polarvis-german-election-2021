@@ -4,5 +4,8 @@
 .RData
 .Ruserdata/
 
+# R project
+polarvis-german-election-2021.Rproj
+
 # Raw data
 raw_data/
